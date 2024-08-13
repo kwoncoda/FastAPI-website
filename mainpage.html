@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS_File/mainpage.css" />
+    <title>CODA</title>
+</head>
+
+<body>
+    <!-- 메인 제목과 파란색 라인 -->
+    <div class="main-header">
+        <h1>CODA</h1>
+        <div class="blue-line"></div>
+    </div>
+
+    <!-- 메인 컨테이너: 상태창과 메인 게시판 -->
+    <div class="main-container">
+        <!-- 상태창 -->
+        <div class="sidebar">
+            <div class="welcome-message">
+                <p id="username"></p>
+            </div>
+            <div class="status-box">
+                <label>
+                    <input type="checkbox" id="autoLogin"> 자동 로그인
+                </label>
+                <button id="logout">로그아웃</button>
+            </div>
+        </div>
+
+        <!-- 메인 게시판 -->
+        <div class="content">
+            <div class="board-title">메인 게시판</div>
+            <div class="separator"></div>
+
+            
+
+            <div class="board-list" id="board-list"></div>
+
+            <div class="search-box">
+                <div>
+                    <select id="search-option">
+                        <option value="title">제목</option>
+                        <option value="data">내용</option>
+                        <option value="writer">작성자</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                    <input type="text" id="search-text" placeholder="검색어를 입력하세요">
+                    <button id="search">검색</button>
+                </div>
+                <div>
+                    <button id="writebtn">글 올리기</button>
+                </div>
+            </div>
+
+            <div class="pagination" id="pagination"></div>
+            
+        </div>
+    </div>
+
+    <script src="JS_FIle/logout.js"></script>
+
+    <script src="JS_FIle/refresh.js"></script>
+
+    <script src="JS_FIle/autologinOn.js"></script>
+
+    <script src="JS_FIle/mainpage.js"></script>
+
+    <script src="JS_FIle/writego.js"></script>
+
+    <script src="JS_FIle/search.js"></script>
+
+</body>
+
+</html>

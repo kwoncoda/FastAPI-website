@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+    <link rel="stylesheet" href="./CSS_File/register.css">
+</head>
+
+<body>
+    <div class="frame">
+        <div class="header">
+            <h1>회원가입 시스템</h1>
+            <hr color="819FF7" size="2" /><br>
+        </div>
+
+        <div class="container">
+            <div class="content">
+                <div class="text">
+                    아이디 입력
+                </div>
+                <div class="content_box">
+                    <input id="register-id" name="register-id" type="text" class="int" maxlength="20" title="아이디 입력"
+                        placeholder="사용할 아이디를 입력하세요" onchange="id_change(this)" onfocusout="id_change(this)">
+                    <h4 id="idErrorMessage" style="color: red;"></h4>
+                    <h4>5~20자리 영문,숫자로 입력해주세요.</h4>
+                </div>
+            </div>
+
+            <script src="./JS_FIle/idcheck.js"></script>
+
+            <div class="content">
+                <div class="text">
+                    닉네임 입력
+                </div>
+                <div class="content_box">
+                    <input id="register-nickname" name="register-nickname" type="text" class="int" maxlength="20" title="닉네임 입력"
+                        placeholder="사용할 닉네임을 입력하세요" onchange="nick_change(this)" onfocusout="nick_change(this)">
+                    <h4 id="nickErrorMessage" style="color: red;"></h4>
+                    <h4>5~20 닉네임을 입력해주세요(띄워쓰기 X)</h4>
+                </div>
+            </div>
+
+            <script src="./JS_FIle/user_nickname.js"></script>
+
+            <div class="password_site">
+                <div class="text">
+                    비밀번호 입력
+                </div>
+                <div class="content_box">
+                    <input id="register-pw" name="register-pw" type="password" class="user_password" maxlength="20"
+                        title="비밀번호 입력" placeholder="사용할 비밀번호를 입력하세요" onchange="pw1_change(this)"
+                        onfocusout="pw1_change(this)">
+                    <h4 id="pw1ErrorMessage" style="color: red;"></h4>
+                    <input id="register-check-pw" name="register-check-pw" type="password" class="user_password" maxlength="20" title="비밀번호 재입력"
+                        placeholder="비밀번호를 재확인해주세요." onchange="pw2_change(this)" onfocusout="pw2_change(this)">
+                    <h4 id="pw2ErrorMessage" style="color: red;"></h4>
+                    <h4>영문,숫자 포함 6~20자</h4>
+                </div>
+            </div>
+
+            <script src="./JS_FIle/passwordcheck.js"></script>
+
+            <div class="content">
+                <div class="text">
+                    이름 입력
+                </div>
+                <div class="content_box">
+                    <input id="register-name" name="register-name" class="int" type="text" title="이름 입력" placeholder="이름을 입력하세요"
+                        onchange="name_change(this)" onfocusout="name_change(this)">
+                    <h4 id="nameErrorMessage" style="color: red;"></h4>
+                    <h4>정확히 입력바람</h4>
+                </div>
+            </div>
+
+            <script src="./JS_FIle/namecheck.js"></script>
+
+        </div>
+        <button id="register-btn">회원가입</button>
+    </div>
+
+    <script src="./JS_FIle/register.js"></script>
+</body>
+
+</html>
