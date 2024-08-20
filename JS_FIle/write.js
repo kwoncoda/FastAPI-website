@@ -28,7 +28,7 @@ window.onload = async function(){
             const res = await fetch(API_URL + "/readload", {
                 method: "POST",
                 headers: {
-                    "COntent-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 credentials: "include",
                 body: JSON.stringify({

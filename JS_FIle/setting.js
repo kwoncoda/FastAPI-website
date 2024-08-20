@@ -1,5 +1,5 @@
 // 백엔드 서버 ip:port
-const API_URL = "http://localhost:8050";
+const API_URL = "http://192.168.111.100:8050";
 
 // 초기 기본 헤더
 const HEADERS = {
