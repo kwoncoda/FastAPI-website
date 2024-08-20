@@ -15,9 +15,11 @@ let NUM = params.get('num');
 
 window.onload = async function(){
 
-    await check_token()
+    await check_token();
 
-    readload()
+    readload();
+
+    readcomment();
 
 }
 
@@ -75,6 +77,51 @@ function readload(){
     
 }
 
+function readcomment(){
+
+    let ACCESS_TOKEN = localStorage.getItem('access_token');
+
+    fetch(API_URL + `/readcomment/${NUM}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${ACCESS_TOKEN}`
+        },
+    })
+    .then(res => res.json())
+    .then(result => {
+        console.log(result);
+        const commentdata = result["data"];
+        commentdata.forEach(element => {
+            addComment(element);
+        })
+        
+    })
+    .catch(error=>{
+        console.log(error);
+    });
+}
+
+// 댓글 추가 함수
+function addComment(value) {
+    const commentItem = document.createElement('div');
+    commentItem.className = 'comment-item';
+
+    const commentMeta = document.createElement('div');
+    commentMeta.className = 'comment-meta';
+    commentMeta.textContent = `작성자: ${value.nick}`;
+
+    const commentText = document.createElement('p');
+    commentText.textContent = value.data;
+
+    commentItem.appendChild(commentMeta);
+    commentItem.appendChild(commentText);
+
+    document.getElementById('comments-list').appendChild(commentItem);
+}
+
+
+
 //뒤로가기
 backBn.addEventListener("click",function (e) {
     
@@ -114,8 +161,7 @@ deleteBtn.addEventListener("click",function (e){
         })
         .then(res => res.json())
         .then(result => {
-            alert("확인");
-            //console.log(result);
+            console.log(result);
     
         })
         .catch(error =>{
