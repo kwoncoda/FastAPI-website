@@ -10,7 +10,11 @@ import pymysql
 import pymysql.cursors
 import bcrypt
 import os
+#import datatype
 from typing import Dict, Any
+
+#get으로 토큰 전송시 담는 변수
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # 환경변수 이용을 위한 전역변수
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -73,10 +77,21 @@ class ReadLoad(BaseModel):
     access_token:str
     count:bool
 
+#글 삭제
+class Deletepost(BaseModel):
+    num:str
+    access_token:str
+
 #검색
 class Search(BaseModel):
     option:str
     text:str
+
+#댓글
+class Comment(BaseModel):
+    num:int
+    text:str
+    access_token:str
 
 
 class ResponseData(BaseModel):
@@ -241,7 +256,8 @@ def user_login(user:Login_User):
         #print("row: ",row)
 
         if not row:
-            raise HTTPException(status_code=401, detail="회원이 없습니다.")
+            #raise HTTPException(status_code=401, detail="회원이 없습니다.")
+            return {"status":401, "message":"로그인 실패"}
     
         #해시된 비밀번호와 정보확인
         if bcrypt.checkpw(password.encode('utf-8'), row['passwd'].encode('utf-8')):
@@ -443,7 +459,7 @@ async def loadboard():
         tend = cur.fetchall()
         data.append(tend)
     
-    #print(data)
+    #   print(data)
 
     conn.close()
 
@@ -498,9 +514,9 @@ async def readload(req_data:ReadLoad):
 
 #게시물 삭제
 @app.post("/deletepost")
-def deletepost(req_data:ReadLoad):
+def deletepost(req_data:Deletepost):
     payload = jwt.decode(req_data.access_token, SECRET_KEY, algorithms=[ALGORITHM])
-    #print(payload)
+    print(payload)
 
     num = req_data.num
 
@@ -510,11 +526,12 @@ def deletepost(req_data:ReadLoad):
     cur.execute(sql,(num))
     writer = cur.fetchone()
 
-    #print(writer)
+    print(writer)
 
     if(writer["writer"] == payload["nick"]):
         try:
             sql = 'DELETE FROM main_board WHERE num=%s;'
+            print(sql,(num))
             cur.execute(sql,(num))
             conn.commit()
         except Exception as e:
@@ -554,6 +571,60 @@ async def search(req_data:Search):
     conn.close()
 
     return {"status":201,"message":"검색완료","data":data}
+
+@app.post("/commentupload")
+async def commentupload(req_data:Comment):
+    text = req_data.text
+    #print(text)
+    num = req_data.num
+    #print(num)
+    payload = jwt.decode(req_data.access_token, SECRET_KEY, algorithms=[ALGORITHM])
+    nick = payload["nick"]
+    #print(nick)
+
+    conn, cur = mysql_create_session()
+
+    # sql = "UPDATE main_board SET comment = {} WHERE num = {};".format(data,num)
+    # sql = "UPDATE main_board SET comment = '{\"%s\":\"%s\"}' WHERE num = %s;"
+    # print(sql)
+    
+
+    try:
+        sql = "INSERT INTO comment (postnum, nick, data) VALUES ({}, '{}', '{}');".format(num,nick,text)
+        #print(sql)
+        cur.execute(sql)
+        #print("완료")
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        conn.close()
+
+    return {"status":201,"message":"등록완료"}
+
+
+
+
+@app.get("/readcomment/{num}")
+async def readcomment(num:int, token: str = Depends(oauth2_scheme)):
+    #print(num)
+    #print(token)
+    conn, cur = mysql_create_session()
+
+    sql = "SELECT nick,data FROM comment WHERE postnum={} ORDER BY num DESC;".format(num)
+    cur.execute(sql)
+    data = cur.fetchall()
+    conn.close()
+
+    #print(data)
+
+    return {"status":201,"message":"댓글 전송","data":data}
+
+    
+
+
+
 
 
 
