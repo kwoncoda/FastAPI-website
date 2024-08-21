@@ -64,9 +64,11 @@ function readload(){
 
         if(result["status"] == 201){
             //console.log("본인글");
+            editBtn.style.display = 'block';
+            deleteBtn.style.display = 'block';
         }else{
-            editBtn.style.display = 'none';
-            deleteBtn.style.display = 'none';
+            //editBtn.style.display = 'none';
+            //deleteBtn.style.display = 'none';
         }
     })
     .catch(error =>{

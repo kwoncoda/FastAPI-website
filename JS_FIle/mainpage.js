@@ -76,8 +76,8 @@ async function loadboard(page,result) {
         nextButton.className = 'page-button';
         nextButton.textContent = '◀이전';
         nextButton.onclick = () => {
-            page -= 10;
-            loadboard(page - 10);
+            page -= MAXPAGE;
+            loadboard(page - MAXPAGE);
         }
         paginationDiv.appendChild(nextButton);
     }
@@ -109,8 +109,8 @@ async function loadboard(page,result) {
         nextButton.className = 'page-button';
         nextButton.textContent = '다음▶';
         nextButton.onclick = () => {
-            page += 10;
-            loadboard(page + 10);
+            page += MAXPAGE;
+            loadboard(page + MAXPAGE);
         }
         paginationDiv.appendChild(nextButton);
     }
